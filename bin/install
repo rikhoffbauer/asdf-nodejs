@@ -269,7 +269,7 @@ install_default_npm_packages() {
 
   if [ ! -f "$default_npm_packages" ]; then return; fi
 
-  cat "$default_npm_packages" | while read -r name; do
+  cat "$default_npm_packages" | sed -e 's/\s*#.*$//g' | while read -r name; do
     echo -ne "\nInstalling \033[33m${name}\033[39m npm package... "
     source "$(dirname "$0")/exec-env"
     PATH="$ASDF_INSTALL_PATH/bin:$PATH" npm install -g "$name" > /dev/null 2>&1 && rc=$? || rc=$?
